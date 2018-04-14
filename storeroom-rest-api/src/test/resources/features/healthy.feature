@@ -3,7 +3,7 @@ Feature: Health end-point
   Background:
     * configure logPrettyRequest = true
     * configure logPrettyResponse = true
-    * url 'http://localhost:8080'
+    * url baseUrl
 
   Scenario: check the healthy endpoint
 
