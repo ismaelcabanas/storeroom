@@ -31,6 +31,13 @@ jacocoTestReport {
         csv.enabled false
         html.destination file ("${buildDir}/reports/coverage")
     }
+
+    afterEvaluate {
+        classDirectories = files(classDirectories.files.collect {
+            fileTree(dir: it,
+                    exclude: ['cabanas/garcia/ismael/storeroom/api/*Application'])
+        })
+    }
 }
 
 tasks.withType(FindBugs) {
