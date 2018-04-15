@@ -97,9 +97,11 @@
   <rule ref="rulesets/java/unnecessary.xml/UselessOverridingMethod">
     <priority>3</priority>
   </rule>
+  <!--
   <rule ref="rulesets/java/unusedcode.xml/UnusedModifier">
     <priority>5</priority>
   </rule>
+  -->
   <rule ref="rulesets/java/design.xml/PreserveStackTrace">
     <priority>3</priority>
   </rule>
