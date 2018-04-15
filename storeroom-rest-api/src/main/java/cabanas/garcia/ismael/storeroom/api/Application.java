@@ -1,4 +1,4 @@
-package cabanas.garcia.ismael.storeroom.api.controllers.product.apidoc;
+package cabanas.garcia.ismael.storeroom.api;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
