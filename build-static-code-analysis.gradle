@@ -31,12 +31,29 @@ jacocoTestReport {
         csv.enabled false
         html.destination file ("${buildDir}/reports/coverage")
     }
-
     afterEvaluate {
         classDirectories = files(classDirectories.files.collect {
-            fileTree(dir: it,
-                    exclude: ['cabanas/garcia/ismael/storeroom/api/*Application'])
+            fileTree(dir: it, exclude: [
+                    '**/*Application**'
+            ])
         })
+    }
+}
+
+jacocoTestCoverageVerification {
+    violationRules {
+        rule {
+            limit {
+                minimum = 0.7 // our tests should cover minimun of 70%, if violate the rule the build will fail
+            }
+        }
+    }
+}
+
+test {
+    jacoco {
+        append = false
+        excludes = ['*Application*']
     }
 }
 
@@ -46,3 +63,5 @@ tasks.withType(FindBugs) {
         html.enabled = true
     }
 }
+
+check.dependsOn jacocoTestCoverageVerification
