@@ -47,11 +47,11 @@
         <module name="SimplifyBooleanExpression"/>
         <module name="SimplifyBooleanReturn"/>
         <module name="StringLiteralEquality"/>
-
+        <!--
         <module name="IllegalCatch">
             <property name="illegalClassNames" value="Exception"/>
         </module>
-
+        -->
         <module name="ParameterAssignment"/>
         <module name="FallThrough"/>
         <module name="OneStatementPerLine"/>
@@ -150,8 +150,8 @@
         <!-- Miscellaneous other checks.                   -->
         <!-- See http://checkstyle.sf.net/config_misc.html -->
         <module name="Indentation">
-            <property name="basicOffset" value="4"/>
-            <property name="caseIndent" value="4"/>
+            <property name="basicOffset" value="2"/>
+            <property name="caseIndent" value="2"/>
         </module>
         <module name="UpperEll"/>
     </module>
