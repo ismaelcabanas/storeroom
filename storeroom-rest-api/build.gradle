@@ -10,7 +10,8 @@ buildscript {
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 
-
+apply from: 'build-integration-tests.gradle'
+apply from: 'build-acceptance-tests.gradle'
 
 dependencies {
     // Spring dependencies
