@@ -57,6 +57,10 @@ test {
     }
 }
 
+jacocoTestReport.onlyIf {
+    file("$rootProject.buildDir/jacoco/integrationTest.exec").exists()
+}
+
 tasks.withType(FindBugs) {
     reports {
         xml.enabled = false
