@@ -1,3 +1,13 @@
 language: java
-jdk:
-  - oraclejdk8
+  jdk:
+    - oraclejdk8
+
+script:
+  - "./gradlew check test integrationTest jacocoTestCoverageVerification jacocoTestReport --stacktrace"
+  - sonar-scanner -X
+
+addons:
+  sonarcloud:
+    organization: ismaelcabanas-github
+    token:
+      secure: "m9j6ETbX3FyawufvmdNXofNiDlKeMJ3oQtDtBVR5uyW5TJesplc4KCP03vn5dDLMF+wcQh2RGQtStkB/g7A8/vA1gscQU4lR4IYr4sQ9DdN8P099rnnEEIpgcNzRAdv7Tn8yjTd4hMAEXppnQUAoAifL4HTSLNtTIo8BFMrl8NDtjv2lyPIEKvk7GNlGNFXNpHIeXxBMmqiX7pydquKnLEreXErV4Ba1jD3IPHzx2dW1QbJpqYeyG0IFy5n8b18kCRFs4qkJbckKsZe2LX0ef7FNImiPUxJ8+rb8S9w47x86lbF60ri5b+kfdIIsk//xV2Puj7xr62OipcrhZalTi2NgPYFx6b5NrD/cvvWIL+sYaMVF+OJBeplQrpV5EX1hKdln4REkSWYv+E+uJ4KYYtVzPmQw7G6jXf6TNVxa8kXlnpkbf98GMjYDc2/UM2DzKfgV6ubROkchxQDXsj7dT66SVsVaSpiqQSvvufQpt8VkNz0GKJ4dCuHsaazjiG8sYJ6FXRxP7kyZzeoCULlZetQ3Po5msv5XG1pbrad9bExwTBo327xlTeD1BZJn83UVPPqrEMGJYP5OryTVyN/qAgggh7AmJqdMYQnixdHWraYyru67HhjneZqBIwVSki0ALkhyziD8zvuQFMOnOSvZ6vLLwdyiAPDpdv79J+ng1fo="
