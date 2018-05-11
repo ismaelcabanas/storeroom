@@ -1,14 +1,31 @@
+sudo: required
+services:
+  - docker
 language: java
-
 jdk:
   - oraclejdk8
+
+env:
+  global:
+    - secure: XuCWccRTouyzzrAIh1OGTAfphuRT3oCtgcG51vzv8NikqHVId+IO3GOcEimo1q571ffMjDCG27M2Wr69Xcl8k4qRX+dr8HNedmkBYpwDj6SIdSGBp4aCV6FgnhXjTemklm65Fd5xsBYBuWuUg69afz6qZPgUntMnRIIjfwQx8NB519H/dJX2PkqiMWJ1pAvdz2DTnPiv871yjuhmoNUAl5UCAl1SWn/iZgcbsL/BBQV77U6t6/9773bx7+VLIIoPpy+EHgZs7TM28kg/cf1qEWZ/6ajGawVdGQJcU1jEsMK4TndOH6GPcTgaZ+uuER7XkyMigxs1cHiOVYfDfRbr5KBLIxO/+m3Nak7zzZMMPzSNQVCpXGW4szG+GHRSW7z7W1ESVi9I8jPW47uSNQkPUEz819LgvkLK3gircZEUC949BmcXsupDM9bCy3N02Cj6uN9hZ3HZu4nS6ExXliXeQoXssQH1JnUEQGii6cdokvEN/FJI0fIQ3ygP58pLCTK6RwjWj5jo1HccZSjA6JsFtcvHlyDhdmjH/EmthyFIamimKdxsJZ+SkzuJwEhicRDCdRGUN3eS/jMH8DJJpkvdceEY7J0alnHRBng21bVy5ZzEtyaDbTF+WmEik5529n75QAobRSVdfioRZ5UctOHle8geuRdeVnO3uyR7i33bFco=
+    - secure: MvpMxAcKXzez2wHHrc72lwm4KgEZMgMyjGp6RX6OodpSdy/aQEZ+E45E2toOPM2UXRwuE+XEIQbjClzj7vAgCICid8TgAvpU9T0isu+gI8CUBAPaC7VI/MRwfjvIc2NWW06nrciY/K6atnAvOORJUWoWUoicAZoFPetFU31Hux/AIhBE15Qa7XVZ/Zjw36eYh6oWzzymF2OyGVSlXdhELB6dNGN8zBpQQB48WkzYyZjpp8D2Wjk0qjphKld0DuAsJ5H2mBZayVHzzF2dx3515529KQz1qywkDDNuqf5S4x1l9b2EtBXR7oJghUlpV37hzANzbnQiayz6fHIGv0JDJGhiNXilfw2ILIErDoAjB6ZavgM97uQFwGo5cWOSKeHh7vgOkO863085UheLTVHquD9rlgYGyeoznVWzoh9IRwQRJPlBvk2IuG0JN29BWPI06DDBKJBtMzaZrGTmZ130AflHoumA9FrOaj+LQ75YcHo8s1jN9ts3jqBNLVqgrr/ZIMv/iVTKmaYYBupExI+f2CARrKu159m4lQCq7pwpkT4iFlHDay8Qt8wmZfLgTVo5eUojbS1vQRhilcqpocnVR702GSJlIlpiQuwu0cxsRo9Kfqz4Cw3mf5ZFdVuH9fsmW+yiw4PhRlbbXQEDzuPk9JQ2ujOjtC+ydKNO95Rt9Ng=
+    - DOCKER_IMAGE_NAME=ismaelcabanas14/storeroom-rest-api
 
 script:
   - "./gradlew check test integrationTest jacocoTestCoverageVerification jacocoTestReport --stacktrace"
   - sonar-scanner -X
-
+  - cd storeroom-rest-api/
+  - docker build -t $DOCKER_IMAGE_NAME .
+  - docker run -it -p 8000:8000 -d $DOCKER_IMAGE_NAME
+  - cd ..
+  - ./gradlew acceptanceTest
 addons:
   sonarcloud:
     organization: ismaelcabanas-github
     token:
-      secure: "XZrlZADIAgxhtEHnKTSKARYcjWcYjxg9mrrn3ZefEiVLHTI1FQfWCIAqH3B9wyNBN3sWA0362TB1pzXUlADxQj/iOaDayhl5ncH87QzMyJvHcU8Y2k1hesNUy31UU5LXn6mluGSMZNKcb8hVmEUeSu5hOBGh7t1J43VZO/U4+6A9znIw9Vk6hIKl2WQj2/cvj2JEO959ObvMXdCBzpEUWxEuU6V/vV/q1uX6sWgki4Q3fDUf4zk4RQ/76kqfniBwO7njQhomt/5IkugbphrkhlCJ2xYKKE8Z0Yk89KwD9GoKfi2divGtxV2p6YDgrzoW2Xrc8zHSz8qrNIVGfbezRSLtfM1b6ftOHgbZgPwTCK0hvJdx1EoqU955Juw4G632hB/6Kbg6YYYPrMFoKc2ei+Vs5l71PxtTBX4cVNGLKqFraekd9aACFc2L0uOUFwMcOnHn/bSuq1isYNB6kVPJOn1S3U3vBraXjza5gvd6yKfp3aDfbTcFQAZDRCkR9fIFW9ksw7dqTQ+/XIdeGuawTnixRX6k4UZ+/leNQDjP/phyuZ0TKBszpZFI5vElMIGqpP3/mnvQ5HG8hL898RVJ7SlUKasxSy4aSG+ANAthvWoVK10BbKF16/YiIAzRwdNR5e1grho8jjfObv++3W7BFkuez5IfE2VocSmDrdGYjI4="
+      secure: XZrlZADIAgxhtEHnKTSKARYcjWcYjxg9mrrn3ZefEiVLHTI1FQfWCIAqH3B9wyNBN3sWA0362TB1pzXUlADxQj/iOaDayhl5ncH87QzMyJvHcU8Y2k1hesNUy31UU5LXn6mluGSMZNKcb8hVmEUeSu5hOBGh7t1J43VZO/U4+6A9znIw9Vk6hIKl2WQj2/cvj2JEO959ObvMXdCBzpEUWxEuU6V/vV/q1uX6sWgki4Q3fDUf4zk4RQ/76kqfniBwO7njQhomt/5IkugbphrkhlCJ2xYKKE8Z0Yk89KwD9GoKfi2divGtxV2p6YDgrzoW2Xrc8zHSz8qrNIVGfbezRSLtfM1b6ftOHgbZgPwTCK0hvJdx1EoqU955Juw4G632hB/6Kbg6YYYPrMFoKc2ei+Vs5l71PxtTBX4cVNGLKqFraekd9aACFc2L0uOUFwMcOnHn/bSuq1isYNB6kVPJOn1S3U3vBraXjza5gvd6yKfp3aDfbTcFQAZDRCkR9fIFW9ksw7dqTQ+/XIdeGuawTnixRX6k4UZ+/leNQDjP/phyuZ0TKBszpZFI5vElMIGqpP3/mnvQ5HG8hL898RVJ7SlUKasxSy4aSG+ANAthvWoVK10BbKF16/YiIAzRwdNR5e1grho8jjfObv++3W7BFkuez5IfE2VocSmDrdGYjI4=
+after_success:
+  - docker login -u $DOCKER_USER -p $DOCKER_PASS
+  - export TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_BRANCH; fi`
+  - docker tag $DOCKER_IMAGE_NAME $DOCKER_IMAGE_NAME:$TAG
+  - docker push $DOCKER_IMAGE_NAME
