@@ -29,3 +29,8 @@ after_success:
   - export TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_BRANCH; fi`
   - docker tag $DOCKER_IMAGE_NAME $DOCKER_IMAGE_NAME:$TAG
   - docker push $DOCKER_IMAGE_NAME
+
+deploy:
+  provider: heroku
+  api_key: 57adcd00-307e-4f65-af89-03c97e9e13ab
+  app: storeroom-rest-api
