@@ -33,4 +33,5 @@ after_success:
 deploy:
   provider: heroku
   api_key: 57adcd00-307e-4f65-af89-03c97e9e13ab
-  app: storeroom-rest-api
+  app:
+    feature/deploy: storeroom-rest-api
